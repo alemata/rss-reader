@@ -22,6 +22,7 @@
   <div><%= f.label :password_confirmation %><br />
   <%= f.password_field :password_confirmation %></div>
 
+  <%= f.collection_select :plan_id, Plan.all, :id, :name%>
 
   <div><%= f.submit "Update" %></div>
 <% end %>

@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
 
   devise :omniauthable, :omniauth_providers => [:google_oauth2, :twitter]
 
+  has_one :plan
+
   validates_presence_of :login, :first_name, :last_name
   validates_uniqueness_of :login
   validates_length_of :login,      :maximum => 50
