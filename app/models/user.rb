@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable
 
-  devise :omniauthable, :omniauth_providers => [:google_oauth2]
+  devise :omniauthable, :omniauth_providers => [:google_oauth2, :twitter]
 
   validates_presence_of :login, :first_name, :last_name
   validates_length_of :login,      :maximum => 50
@@ -14,18 +14,37 @@ class User < ActiveRecord::Base
 
   def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
     data = access_token.extra.raw_info
-    user = User.where(:email => data["email"]).first
+    #Use email as login
+    user = User.where(:login => data["email"]).first
 
     unless user
-        user = User.new(first_name: data["given_name"],
-                        last_name:  data["family_name"],
-                        login:      data["name"],
-                        email:      data["email"],
-                        password:   Devise.friendly_token[0,20])
-        user.confirm!
-        user.save!
+      user = User.new(first_name: data["given_name"],
+                      last_name:  data["family_name"],
+                      login:      data["email"],
+                      email:      data["email"],
+                      password:   Devise.friendly_token[0,20])
+      user.confirm!
+      user.save
     end
     user
-end
+  end
+
+  def self.find_for_twitter_oauth(access_token, signed_in_resource=nil)
+    data = access_token.extra.raw_info
+    #Use screen_name as login
+    user = User.where(:login => data["screen_name"]).first
+
+    unless user
+      name_split = data["name"].split(" ")
+      user = User.new(first_name: name_split[0],
+                      last_name:  name_split[1],
+                      login:      data["screen_name"],
+                      password:   Devise.friendly_token[0,20])
+      user.confirm!
+      user.save
+    end
+    user
+  end
+
 
 end
