@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   devise :omniauthable, :omniauth_providers => [:google_oauth2, :twitter]
 
   validates_presence_of :login, :first_name, :last_name
+  validates_uniqueness_of :login
   validates_length_of :login,      :maximum => 50
   validates_length_of :first_name, :maximum => 50
   validates_length_of :last_name,  :maximum => 50
@@ -44,6 +45,15 @@ class User < ActiveRecord::Base
       user.save
     end
     user
+  end
+
+  def self.find_first_by_auth_conditions(warden_conditions)
+    conditions = warden_conditions.dup
+    if login = conditions.delete(:login)
+      where(conditions).where(["lower(login) = :value", { :value => login.downcase }]).first
+    else
+      where(conditions).first
+    end
   end
 
 
