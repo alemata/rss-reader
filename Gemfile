@@ -6,6 +6,13 @@ gem 'rails', '4.0.0'
 # Use mysql as the database for Active Record
 gem 'mysql2'
 
+
+gem 'devise'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-twitter'
+
+gem "paperclip", "~> 3.0"
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
@@ -43,3 +50,4 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+gem 'pry', group: [:development, :test]
