@@ -11,6 +11,8 @@ gem 'devise'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-twitter'
 
+gem "paperclip", "~> 3.0"
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 

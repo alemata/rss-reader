@@ -7,6 +7,10 @@ class User < ActiveRecord::Base
 
   devise :omniauthable, :omniauth_providers => [:google_oauth2, :twitter]
 
+  has_attached_file :avatar,
+                    :styles => { large: "400x400#", medium: "300x300#",
+                                 :small => "100x100#", thumb: "50x50#" }
+
   has_one :plan
 
   validates_presence_of :login, :first_name, :last_name
