@@ -3,5 +3,9 @@
 #
 # Examples:
 #
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
+Plan.create([
+  {name: 'Basic'  , channels_quantity: 100 },
+  {name: 'Medium' , channels_quantity: 20  },
+  {name: 'Premium', channels_quantity: 100 }
+])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
